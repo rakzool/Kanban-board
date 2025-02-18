@@ -1,0 +1,13 @@
+.page-wrapper{
+    display: flex;
+    flex-direction: column;
+     width: 80vw;
+   
+}
+
+.page-title{
+    align-self: center;
+    justify-self: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
