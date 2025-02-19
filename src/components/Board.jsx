@@ -11,8 +11,8 @@ const Board = ({ columns }) => {
             {
                 columns.map((col) => {
                     return (
-                        <div className={Classes.columnStyle}>
-                            <Columns column={col} key={col.id} />
+                        <div className={Classes.columnStyle} key={col.id}>
+                            <Columns column={col}  />
                         </div>
                     )
                 })

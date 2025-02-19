@@ -1,0 +1,20 @@
+.cardWrapper{
+    background-color: #ffffff;
+    padding: 0.8rem;
+    border-radius: 6px;
+    box-shadow: 0px 2px 4px rgba(0,0,0,0.1);
+    margin-bottom: 0.5rem;
+    max-width: 11rem;
+}
+
+.cardTitle{
+    font-size: 1rem;
+    font-weight: bold;
+
+}
+
+.classDesc{
+    text-align: left;
+    font-size: 0.8rem;
+    color: #282828;
+}

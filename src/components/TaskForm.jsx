@@ -1,9 +1,12 @@
 import React from "react";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 import Classes from "../styles/TaskForm.module.css";
+import { addTask } from "../store/Reducers/BoardSlice";
 
-const TaskForm = () => {
+const TaskForm = ({columnID}) => {
     const [title,setTitle] = useState("");
+    const dispatch = useDispatch();
 
     // add discription to the card of the task 
     // status add it here
@@ -13,7 +16,9 @@ const TaskForm = () => {
         if(!title.trim()){
             return
         }
-        console.log(title);
+
+        const taskId = Date.now().toString();
+        dispatch(addTask({columnID,title,taskId}));
         setTitle("");
     }
 
