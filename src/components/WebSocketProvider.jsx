@@ -16,7 +16,7 @@ export const WebSocketContext = createContext(null);
         const ws = new WebSocket(socketURL);
 
         ws.onopen = () => {
-            console.log("websocket connected succesfully ");
+            console.log("websocket connected successfully ");
             setSocket(ws);
         }
 
@@ -71,16 +71,20 @@ export const WebSocketContext = createContext(null);
     },[dispatch]);
 
     useEffect(() => {
-        const ws = connectWebSocket();
+        let ws = null;
+        
+        // Only create a new connection if we don't have one
+        if (!socket) {
+            ws = connectWebSocket();
+        }
 
-        // clean up function when the component unmounts
         return () => {
-            console.log("cleaing up websocket connection...");
-            if(ws && ws.readyState === WebSocket.OPEN){
+            if (ws && ws.readyState === WebSocket.OPEN) {
+                console.log("cleaning up websocket connection...");
                 ws.close();
             }
         };
-    },[connectWebSocket])
+    }, [connectWebSocket, socket]);
 
 
     return (

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useCallback } from "react";
 import { useDispatch } from "react-redux";
 import { useDrop } from "react-dnd";
 import Classes from "../styles/column.module.css";
@@ -7,34 +7,33 @@ import TaskForm from "./TaskForm";
 import { moveTask } from "../store/Reducers/BoardSlice";
 import { WebSocketContext } from "./WebSocketProvider";
 
-const Columns = ({ column, key }) => {
+const Columns = ({ column }) => {
   const dispatch = useDispatch();
   const socket = useContext(WebSocketContext);
 
-  useEffect(() => {
-    console.log("WebSocket context in Columns:", socket);
-  }, [socket]);
+  const handleTaskMove = useCallback((item) => {
+    dispatch(moveTask({ taskID: item.id, newColumnID: column.id }));
+
+    if (socket && socket.readyState === WebSocket.OPEN) {
+      const message = {
+        type: "MOVE_TASK",
+        taskId: item.id,
+        newColumnID: column.id
+      };
+      console.log("sending WebSocket message:", message);
+      socket.send(JSON.stringify(message));
+    } else {
+      console.warn("WebSocket not available or not open for task move");
+    }
+  }, [socket, dispatch, column.id]);
 
   const [{ isOver }, drop] = useDrop(() => ({
     accept: "TASK",
-    drop: (item) => {
-      dispatch(moveTask({ taskID: item.id, newColumnID: column.id }));
-      if (socket) {
-        const message = {
-          type: "MOVE_TASK",
-          taskId: item.id,
-          newColumnID: column.id
-        };
-        console.log("sending WebSocket message:", message);
-        socket.send(JSON.stringify(message));
-      } else {
-        console.warn("web socket not available for task move");
-      }
-    },
+    drop: handleTaskMove,
     collect: (monitor) => ({
       isOver: !!monitor.isOver(),
     }),
-  }));
+  }), [handleTaskMove]);
 
   return (
     <div className={Classes.mainWrapper} ref={drop} style={{ backgroundColor: isOver ? "#dfe1e6" : "#F5F5F7" }}>
