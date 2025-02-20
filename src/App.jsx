@@ -4,6 +4,7 @@ import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import store from './store/store';
 import KanbanBoard from './pages/kanbanBoard'
+import WebSocketProvider from './components/WebSocketProvider';
 
 function App() {
 
@@ -12,7 +13,9 @@ function App() {
     <>
       <Provider store={store}>
         <DndProvider backend={HTML5Backend}>
-        <KanbanBoard />
+          <WebSocketProvider>
+            <KanbanBoard />
+          </WebSocketProvider>
         </DndProvider>
       </Provider>
     </>

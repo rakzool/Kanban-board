@@ -29,13 +29,17 @@ const boardSlice = createSlice({
             const { columnID, title,taskId } = action.payload;
             const column = state.columns.find((col) => col.id === columnID);
             if (column) {
-                column.tasks.push({ id:taskId, title });
+                const taskExists = column.tasks.some(task => task.id === taskId);
+                if(!taskExists){
+                    column.tasks.push({ id:taskId, title });
+                }
             }
         },
 
         moveTask: (state, action) => {
             const {taskID, newColumnID} = action.payload;
             let movedTask = null;
+            
 
             state.columns.forEach((col) => {
                 const taskIndex = col.tasks.findIndex((task) => task.id === taskID);
