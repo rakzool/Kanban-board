@@ -26,12 +26,12 @@ const boardSlice = createSlice({
     reducers: {
         addTask: (state, action) => {
             console.log("reducer trigreed")
-            const { columnID, title,taskId } = action.payload;
-            const column = state.columns.find((col) => col.id === columnID);
+            const { columnId, title,taskId,description } = action.payload;
+            const column = state.columns.find((col) => col.id == columnId);
             if (column) {
                 const taskExists = column.tasks.some(task => task.id === taskId);
                 if(!taskExists){
-                    column.tasks.push({ id:taskId, title });
+                    column.tasks.push({ id:taskId, title , description });
                 }
             }
         },
@@ -56,11 +56,33 @@ const boardSlice = createSlice({
                     newColumn.tasks.push(movedTask)
                 }
             }
-        }
+        },
+
+        addComment: (state, action) => {
+            const { taskId, comment, commentId, timestamp } = action.payload;
+            
+            state.columns.forEach((column) => {
+              const task = column.tasks.find((t) => t.id === taskId);
+              if (task) {
+                if (!task.comments) {
+                  task.comments = [];
+                }
+                // Check if comment already exists
+                const commentExists = task.comments.some(c => c.id === commentId);
+                if (!commentExists) {
+                  task.comments.push({
+                    id: commentId,
+                    text: comment,
+                    timestamp
+                  });
+                }
+              }
+            });
+          }
 
     }
 });
 
-export const { addTask, moveTask } = boardSlice.actions;
+export const { addTask, moveTask , addComment} = boardSlice.actions;
 
 export default boardSlice.reducer;

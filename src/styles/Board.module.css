@@ -1,4 +1,4 @@
-.bord{
+.board{
     display: flex;
     gap: 1rem;
     margin: 1rem 3rem;
@@ -14,3 +14,27 @@
     background-color: #F5F5F7;
     padding: 1rem;
 }
+
+.boardHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    background-color: white;
+    border-bottom: 1px solid #dfe1e6;
+  }
+  
+  .createTaskBtn {
+    padding: 8px 16px;
+    background-color: #0052cc;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  
+  .createTaskBtn:hover {
+    background-color: #0747a6;
+  }
+    
